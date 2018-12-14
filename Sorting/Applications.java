@@ -3,6 +3,9 @@
 * Assuming that all arrays here are sorted and of type int
 */
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 class Applications {
 
@@ -20,13 +23,15 @@ class Applications {
         //Check that k is even inside the array by checking against the
         //last element
         if (right >= left && k <= inputArr[inputArr.length - 1]) {
-            int mid = (left + right + 1) / 2;
+            int mid = left + right - left / 2;
             if (inputArr[mid] == k) {
                 return mid;
-            } else if (inputArr[mid] < k) {
-                return findK(inputArr, k, mid, right);
+            } else if (inputArr[mid] > k) {
+                //search left
+                return findK(inputArr, k, left, mid - 1);
             } else {
-                return findK(inputArr, k, left, mid);
+                //search right
+                return findK(inputArr, k, mid + 1, right);
             }
         } else {
             return -1;
@@ -58,38 +63,36 @@ class Applications {
     * @return int[] with no duplicate elements
     */
     static int[] removeDuplicates(int[] inputArr) {
-        int newArrSize = 0;
-        int[] temp = new int[inputArr.length];
-        int[] outputArr;
+        int outputArrCounter = 0;
+        ArrayList<Integer> outputArr = new ArrayList<>();
 
         //Index 0 of input array for reference
         int storedValue = inputArr[0];
-        temp[0] = inputArr[0];
+        outputArr.add(outputArrCounter++, inputArr[0]);
 
-        for (int i = 1, j = 1; i < inputArr.length; i++, j++) {
+        for (int i = 1; i < inputArr.length; i++) {
             //If current element is the same as the previous one,
             //loop forward until the next unique element is found
             //or the end of the inputArr is reached.
             if (inputArr[i] == storedValue) {
                 int nextIndex = i + 1;
-                while (nextIndex < inputArr.length && inputArr[nextIndex] == inputArr[i]) {
+                while (nextIndex < inputArr.length && inputArr[nextIndex] == storedValue) {
                     nextIndex++;
                 }
-                temp[j] = inputArr[nextIndex];
-                i += nextIndex; //jump to next element after the unique element
+
+                //Add element if the while loop terminated not because of reaching end of index
+                if (nextIndex != inputArr.length) {
+                    outputArr.add(outputArrCounter++, inputArr[nextIndex]);
+                    storedValue = inputArr[nextIndex];
+                }
+                i = nextIndex; //set pointer to next element after the unique element
             } else {
-                temp[j] = inputArr[i];
+                outputArr.add(outputArrCounter++, inputArr[i]);
+                storedValue = inputArr[i];
             }
-            newArrSize++; //increment final array size
         }
 
-        //Minimum size is 1
-        outputArr = new int[newArrSize + 1];
-        for (int i = 0; i < newArrSize + 1; i++) {
-            outputArr[i] = temp[i];
-        }
-
-        return outputArr;
+        return outputArr.stream().mapToInt(i -> i).toArray();
     }
 
     /**
@@ -169,33 +172,56 @@ class Applications {
         int aCounter = 0;
         int bCounter = 0;
         int outputArrCounter = 0;
-        int[] outputArr = new int[inputArrA.length + inputArrB.length];
+        //int[] outputArr = new int[inputArrA.length + inputArrB.length];
+        ArrayList<Integer> outputArr = new ArrayList<>();
 
         while (aCounter < inputArrA.length && bCounter < inputArrB.length) {
             int a = inputArrA[aCounter];
             int b = inputArrB[bCounter];
-            if (a <= b) {
+            if (a == b) {
+                //Ignoring duplicates
+                outputArr.add(outputArrCounter++, a);
                 while (aCounter < inputArrA.length && inputArrA[aCounter] == a) {
-                    outputArr[outputArrCounter++] = a;
                     aCounter++;
                 }
-            } else {
                 while (bCounter < inputArrB.length && inputArrB[bCounter] == b) {
-                    outputArr[outputArrCounter++] = b;
                     bCounter++;
+                }
+            } else {
+                if (a < b) {
+                    outputArr.add(outputArrCounter++, a);
+                    while (aCounter < inputArrA.length && inputArrA[aCounter] == a) {
+                        aCounter++;
+                    }
+                } else {
+                    //Ignoring duplicates
+                    outputArr.add(outputArrCounter++, b);
+                    while (bCounter < inputArrB.length && inputArrB[bCounter] == b) {
+                        bCounter++;
+                    }
                 }
             }
         }
 
         //Add the leftovers. Only 1 array will have elements left.
+        int c = outputArr.get(outputArrCounter-1);
         while (aCounter < inputArrA.length) {
-            outputArr[outputArrCounter++] = inputArrA[aCounter++];
-        }
-        while (bCounter < inputArrB.length) {
-            outputArr[outputArrCounter++] = inputArrB[bCounter++];
+            if (inputArrA[aCounter] == c) {
+                aCounter++;
+            } else {
+                outputArr.add(outputArrCounter++, inputArrA[aCounter++]);
+            }
         }
 
-        return outputArr;
+        while (bCounter < inputArrB.length) {
+            if (inputArrB[bCounter] == c) {
+                bCounter++;
+            } else {
+                outputArr.add(outputArrCounter++, inputArrB[bCounter++]);
+            }
+        }
+
+        return outputArr.stream().mapToInt(i -> i).toArray();
     }
 
     /**
@@ -210,8 +236,7 @@ class Applications {
         int aCounter = 0;
         int bCounter = 0;
         int outputArrCounter = 0;
-        int shorterLength = inputArrA.length < inputArrB.length ? inputArrA.length : inputArrB.length;
-        int[] temp = new int[shorterLength];
+        ArrayList<Integer> outputArr = new ArrayList<>();
 
         while (aCounter < inputArrA.length && bCounter < inputArrB.length) {
             int a = inputArrA[aCounter];
@@ -222,29 +247,88 @@ class Applications {
             } else if (b < a) {
                 bCounter++;
             } else {
-                temp[outputArrCounter++] = a;
                 aCounter++;
                 bCounter++;
+                //Check if previous element in output array is same as the current element
+                if (outputArrCounter > 0) {
+                    int c = outputArr.get(outputArrCounter - 1);
+                    if (c == a) {
+                        continue;
+                    }
+                }
+                outputArr.add(outputArrCounter++, a);
             }
         }
 
-        int[] outputArr = new int[outputArrCounter];
-        for (int i = 0; i < outputArrCounter; i++) {
-            outputArr[i] = temp[i];
-        }
+        return outputArr.stream().mapToInt(i -> i).toArray();
+    }
 
-        return outputArr;
+    /**
+    * Given an int z, find int x and int y such that x + y = z
+    * Time complexity: O(n)
+    * Space complexity: O(1)
+    * @param inputArr Sorted int array
+    * @param z Value to find a pair of
+    * @return int[2] which represents int x and int y, {-1, -1} if x and y does not exist
+    */
+    static int[] findPair(int[] inputArr, int z) {
+        int xCounter = 0;
+        int yCounter = inputArr.length - 1;
+        int[] output = {-1, -1};
+
+        while (xCounter < inputArr.length && yCounter >= 0) {
+            int x = inputArr[xCounter];
+            int y = inputArr[yCounter];
+            if (x + y == z) {
+                output[0] = x;
+                output[1] = y;
+                return output;
+            } else if (z - x > y) {
+                xCounter++;
+            } else {
+                yCounter--;
+            }
+        }
+        return output;
     }
 
     public static void main(String[] args) {
-        int[] arr = {3, 3, 3, 4, 5, 7, 8, 9, 12};
-        int[] arr1 = {4, 5, 5, 6, 7, 7};
-        int[] output = removeDuplicates(arr);
-        System.out.println(Arrays.toString(output));
-        System.out.println(findK(arr, 8, 0, arr.length - 1));
-        System.out.println(kthMinMax(arr, 3, true));
-        System.out.println(countOccurrenceK(arr, 3));
-        System.out.println(Arrays.toString(setUnion(arr, arr1)));
-        System.out.println(Arrays.toString(setIntersection(arr, arr1)));
+        Random rand = new Random();
+        int lowerBound = 0;
+        int upperBound = 100;
+        int arraySize = 12;
+        int randomK = rand.ints(1, lowerBound, upperBound + 1).sum();
+        int[] arr1 = rand.ints(arraySize, lowerBound, upperBound + 1).sorted().toArray();
+        int[] arr2 = rand.ints(arraySize, lowerBound, upperBound + 1).sorted().toArray();
+        int[] noDupeArr1 = removeDuplicates(arr1);
+        int[] noDupeArr2 = removeDuplicates(arr2);
+
+        System.out.println("\n====================================================================\n");
+        System.out.println("Random sorted arr1: " + Arrays.toString(arr1));
+        System.out.println("Random sorted arr2: " + Arrays.toString(arr2));
+        System.out.println("\n====================================================================\n");
+        System.out.println("Removing duplicates from arr1: " + Arrays.toString(noDupeArr1));
+        System.out.println("Removing duplicates from arr2: " + Arrays.toString(noDupeArr2));
+        System.out.println("\n====================================================================\n");
+        System.out.println("Finding " + randomK + " from arr1: " + findK(arr1, randomK, 0, arraySize - 1));
+        System.out.println("Finding " + randomK + " from arr2: " + findK(arr2, randomK, 0, arraySize - 1));
+        System.out.println("\n====================================================================\n");
+        for (int i = 1; i < 6; i++) {
+            System.out.println("Finding " + i + "-th maximum value from arr1: " + kthMinMax(noDupeArr1, i, false));
+        }
+        System.out.println();
+        for (int i = 1; i < 6; i++) {
+            System.out.println("Finding " + i + "-th minimum value from arr2: " + kthMinMax(noDupeArr2, i, true));
+        }
+        System.out.println("\n====================================================================\n");
+        System.out.println("Finding number of occurrence(s) of " + randomK + " from arr1: " + countOccurrenceK(arr1, randomK));
+        System.out.println("Finding number of occurrence(s) of " + randomK + " from arr2: " + countOccurrenceK(arr2, randomK));
+        System.out.println("\n====================================================================\n");
+        System.out.println("Finding the set union of arr1 and arr2: " + Arrays.toString(setUnion(arr1, arr2)));
+        System.out.println("Finding the set intersection of arr1 and arr2: " + Arrays.toString(setIntersection(arr1, arr2)));
+        System.out.println("\n====================================================================\n");
+        System.out.println("Finding a pair (x, y) that sums to " + randomK + " from arr1: " + Arrays.toString(findPair(arr1, randomK)));
+        System.out.println("Finding a pair (x, y) that sums to " + randomK + " from arr2: " + Arrays.toString(findPair(arr2, randomK)));
+        System.out.println("\n====================================================================\n");
     }
 }
