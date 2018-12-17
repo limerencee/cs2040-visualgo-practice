@@ -171,4 +171,58 @@ class LinkedList <T> {
     Optional<T> peek() {
         return Optional.of(this.head.getVal());
     }
+
+    /**
+    * Reverses the order of the LinkedList
+    */
+    void reverse() {
+        if (this.head == null || this.head == this.tail) {
+            return;
+        } else {
+            Node<T> prevNode = null;
+            Node<T> currentNode = this.head;
+            Node<T> nextNode = null;
+            while (currentNode != null) {
+                nextNode = currentNode.getNextNode(); //save reference to next
+                currentNode.setNextNode(prevNode);
+                prevNode = currentNode;
+                currentNode = nextNode;
+            }
+            //Swap the head and tail pointers
+            Node<T> temp = this.head;
+            this.head = this.tail;
+            this.tail = temp;
+        }
+    }
+
+    /**
+    * Auxiliary function to reverse the LinkedList recursively.
+    * Base case - when currentNode == null (e.g. end of list)
+    * @param prevNode Previous Node which will be the new next Node
+    * @param currentNode Node which needs to point to prevNode, and to retrieve the nextNode of.
+    */
+    void recursiveUtil(Node<T> prevNode, Node<T> currentNode) {
+        if (currentNode == null) { //base case: end of list
+            //Swap the head and tail pointers
+            Node<T> temp = this.head;
+            this.head = this.tail;
+            this.tail = temp;
+            return;
+        } else {
+            Node<T> nextNode = currentNode.getNextNode();
+            currentNode.setNextNode(prevNode);
+            recursiveUtil(currentNode, nextNode);
+        }
+    }
+
+    /**
+    * Reverses the order of the LinkedList recursively.
+    */
+    void reverseRecursive() {
+        if (this.head == null || this.head == this.tail) {
+            return;
+        } else {
+            recursiveUtil(null, this.head);
+        }
+    }
 }

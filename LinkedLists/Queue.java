@@ -24,7 +24,6 @@ class Queue <T> {
         Node<T> newNode = new Node<>(val);
         if (this.head == null) {
             this.head = newNode;
-            this.tail = newNode;
         } else {
             this.tail.setNextNode(newNode);
         }

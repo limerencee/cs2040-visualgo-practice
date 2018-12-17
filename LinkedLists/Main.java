@@ -43,6 +43,14 @@ class Main {
             System.out.print(ll.get(i).get() + " -> ");
         }
         System.out.print(ll.get(3).get());
+        System.out.println("\n\n=========================================\n");
+        System.out.println("Reversing LinkedList.");
+        ll.reverseRecursive();
+        System.out.println("\nCurrent LinkedList: \n");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(ll.get(i).get() + " -> ");
+        }
+        System.out.print(ll.get(3).get());
 
         /**
         * Doubly LinkedList Demo
