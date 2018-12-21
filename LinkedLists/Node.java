@@ -1,5 +1,5 @@
 /**
-* This class is used to represent a single entity inside a typical (Doubly) LinkedList / Stack.
+* This class is used to represent a single entity inside a typical (Doubly) LinkedList / Stack / (DE) Queue.
 */
 class Node <T> {
 

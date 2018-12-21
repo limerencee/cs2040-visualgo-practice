@@ -5,8 +5,8 @@ import java.util.Optional;
 
 class DeQueue <T> {
 
-    Node<T> head;
-    Node<T> tail;
+    private Node<T> head;
+    private Node<T> tail;
 
     /**
     * Constructor, initializes the head and tail to null.

@@ -10,8 +10,8 @@ class Main {
         /**
         * Bubble Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|     Bubble Sort Demo      |");
         System.out.println("=============================");
@@ -27,8 +27,8 @@ class Main {
         /**
         * Selection Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|    Selection Sort Demo    |");
         System.out.println("=============================");
@@ -44,8 +44,8 @@ class Main {
         /**
         * Insertion Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|    Insertion Sort Demo    |");
         System.out.println("=============================");
@@ -61,8 +61,8 @@ class Main {
         /**
         * Merge Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|    Insertion Sort Demo    |");
         System.out.println("=============================");
@@ -78,8 +78,8 @@ class Main {
         /**
         * Quick Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|      Quick Sort Demo      |");
         System.out.println("=============================");
@@ -95,8 +95,8 @@ class Main {
         /**
         * Quick Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|     R. Quick Sort Demo    |");
         System.out.println("=============================");
@@ -112,8 +112,8 @@ class Main {
         /**
         * Counting Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|     Counting Sort Demo    |");
         System.out.println("=============================");
@@ -129,8 +129,8 @@ class Main {
         /**
         * Radix Sort Demonstration
         */
-        unsorted1 = rand.ints(12, 0, 100000).toArray();
-        unsorted2 = rand.ints(12, 0, 100000).toArray();
+        unsorted1 = rand.ints(12, 0, 100_000).toArray();
+        unsorted2 = rand.ints(12, 0, 100_000).toArray();
         System.out.println("=============================");
         System.out.println("|      Radix Sort Demo      |");
         System.out.println("=============================");
