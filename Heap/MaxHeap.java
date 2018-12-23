@@ -1,3 +1,7 @@
+/**
+* This class is contains a barebones setup for a typical MaxHeap structure.
+*/
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -8,12 +12,21 @@ class MaxHeap <T> {
     private Node<T> root;
     private Comparator comparator;
 
+    /**
+    * Default Constructor. Initializes the heap and root. Nodes will be compared
+    * by their natural ordering.
+    */
     public MaxHeap() {
         this.heap = new ArrayList<>();
         this.root = null;
         this.comparator = Comparator.naturalOrder();
     }
 
+    /**
+    * Constructor with custom comparator. Initializes the heap and root.
+    * Nodes will be compared based on the custom comparator.
+    * @param comparator Custom comparator to compare the Nodes within the heap.
+    */
     public MaxHeap(Comparator<T> comparator) {
         this.heap = new ArrayList<>();
         this.root = null;
