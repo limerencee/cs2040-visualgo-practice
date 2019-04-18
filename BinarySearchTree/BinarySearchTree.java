@@ -171,7 +171,7 @@ class BinarySearchTree <T> {
 
                 } else if (currentNode.getLeftChild() != null && currentNode.getRightChild() != null) { //currentNode is an interal vertex
 
-                    Optional<T> successorVal = successor(currentNode.getValue()); //find successor to currentNode
+                    Optional<T> successorVal = successor(currentNode.getValue()); //find the in-order successor to currentNode
                     if (!successorVal.isEmpty()) {
                         remove(successorVal.get()); //remove the successor in the bst
                         currentNode.setValue(successorVal.get()); //replace currentNode's val with successorVal
